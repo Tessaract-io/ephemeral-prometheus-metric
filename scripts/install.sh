@@ -13,5 +13,6 @@ supervisorctl -c "../supervisord.conf" reread
 supervisorctl -c "../supervisord.conf" update
 
 # Start the application
+cd ../
 echo "Starting the application"
 supervisorctl start ephemeral_prometheus_metric
