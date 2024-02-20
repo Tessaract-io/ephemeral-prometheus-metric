@@ -24,7 +24,7 @@ func TestRunCommandPS(t *testing.T) {
 	if len(result) == 0 {
 		t.Fatalf("Result is empty, value is %s", result)
 	}
-	if !strings.Contains(result[0], "PID TTY") {
+	if !strings.Contains(result[0], "PID TTY") && !strings.Contains(result[0], "PID   USER") {
 		t.Fatalf("Result is not correct, value is %s", result)
 	}
 }
