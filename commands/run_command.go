@@ -19,7 +19,7 @@ func RunCommand(command string, params []string) (errMessage string, cmdOutput [
 
 	completeCommand := []string{command}
 	completeCommand = append(completeCommand, params...)
-	logger.Printf("executing command -> %s\n", strings.Join(completeCommand, " "))
+	logger.Printf("executing command -> \"%s\"\n", strings.Join(completeCommand, " "))
 	if err != nil {
 		errMsg := fmt.Sprint(err) + ": " + stderr.String()
 		fmt.Println(params)

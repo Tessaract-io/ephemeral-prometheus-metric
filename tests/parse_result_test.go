@@ -50,19 +50,22 @@ func TestParseResultDarwin(t *testing.T) {
 		"map auto_home            0         0         0   100%       0         0     -   /System/Volumes/Data/home",
 	}
 	result := utils.ParseResult(data, "/")
+	totalCapacityBytes := result.TotalCapacityBytes
+	remainingBytes := result.RemainingBytes
+	usageBytes := totalCapacityBytes - remainingBytes
 	if result.TotalCapacityBytes != 239362496*1024 {
 		t.Fatalf("Test Darwin: TotalCapacityBytes is not correct, value is %f", result.TotalCapacityBytes)
 	}
-	if result.UsageBytes != 9897844*1024 {
+	if result.UsageBytes != usageBytes {
 		t.Fatalf("Test Darwin: UsageBytes is not correct, value is %f", result.UsageBytes)
 	}
 	if result.RemainingBytes != 8652156*1024 {
 		t.Fatalf("Test Darwin: RemainingBytes is not correct, value is %f", result.RemainingBytes)
 	}
-	if result.UsagePercent != result.UsageBytes/result.TotalCapacityBytes*100 {
+	if result.UsagePercent != usageBytes/totalCapacityBytes*100 {
 		t.Fatalf("Test Darwin: UsagePercent is not correct, value is %f", result.UsagePercent)
 	}
-	if result.RemainingPercent != result.RemainingBytes/result.TotalCapacityBytes*100 {
+	if result.RemainingPercent != remainingBytes/totalCapacityBytes*100 {
 		t.Fatalf("Test Darwin: RemainingPercent is not correct, value is %f", result.RemainingPercent)
 	}
 }

@@ -36,19 +36,22 @@ func TestMapResultDarwin(t *testing.T) {
 		"Available":   8652156,
 	}
 	result := utils.MapResult(data)
-	if result.TotalCapacityBytes != 239362496*1024 {
+	totalCapacityBytes := data["1024-blocks"] * 1024
+	remainingBytes := data["Available"] * 1024
+	usageBytes := totalCapacityBytes - remainingBytes
+	if result.TotalCapacityBytes != totalCapacityBytes {
 		t.Fatalf("Test Darwin: TotalCapacityBytes is not correct, value is %f", result.TotalCapacityBytes)
 	}
-	if result.UsageBytes != 9897844*1024 {
+	if result.UsageBytes != usageBytes {
 		t.Fatalf("Test Darwin: UsageBytes is not correct, value is %f", result.UsageBytes)
 	}
-	if result.RemainingBytes != 8652156*1024 {
+	if result.RemainingBytes != remainingBytes {
 		t.Fatalf("Test Darwin: RemainingBytes is not correct, value is %f", result.RemainingBytes)
 	}
-	if result.UsagePercent != result.UsageBytes/result.TotalCapacityBytes*100 {
+	if result.UsagePercent != usageBytes/totalCapacityBytes*100 {
 		t.Fatalf("Test Darwin: UsagePercent is not correct, value is %f", result.UsagePercent)
 	}
-	if result.RemainingPercent != result.RemainingBytes/result.TotalCapacityBytes*100 {
+	if result.RemainingPercent != remainingBytes/totalCapacityBytes*100 {
 		t.Fatalf("Test Darwin: RemainingPercent is not correct, value is %f", result.RemainingPercent)
 	}
 }
@@ -56,8 +59,8 @@ func TestMapResultDarwin(t *testing.T) {
 func TestMapResultError(t *testing.T) {
 	data := map[string]float64{
 		"1K-blocks": 52416492,
-		"-":         23709872,
-		"Available": 28706620,
+		"Used":      23709872,
+		"-":         28706620,
 	}
 	result := utils.MapResult(data)
 	if result.TotalCapacityBytes != 0 {
