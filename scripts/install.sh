@@ -17,7 +17,7 @@ if [ $program_exists -eq 0 ]; then
     echo -e "\n\n[program:ephemeral_prometheus_metric]" >> ../supervisord.conf
     echo "command=/usr/local/bin/ephemeral_prometheus_metric" >> ../supervisord.conf
 else
-    echo "The application is already installed"
+    echo "The supervisord.conf file is updated already"
     exit 0
 fi
 
