@@ -11,9 +11,15 @@ else
 fi
 
 # Modify the supervisord.conf file to include the application
-echo "Modifying the supervisord.conf file"
-echo -e "\n\n[program:ephemeral_prometheus_metric]" >> ../supervisord.conf
-echo "command=/usr/local/bin/ephemeral_prometheus_metric" >> ../supervisord.conf
+program_exists=$(grep -c "ephemeral_prometheus_metric" ../supervisord.conf)
+if [ $program_exists -eq 0 ]; then
+    echo "Modifying the supervisord.conf file"
+    echo -e "\n\n[program:ephemeral_prometheus_metric]" >> ../supervisord.conf
+    echo "command=/usr/local/bin/ephemeral_prometheus_metric" >> ../supervisord.conf
+else
+    echo "The application is already installed"
+    exit 0
+fi
 
 # Reload the supervisor configuration
 echo "Reloading the supervisor configuration"
